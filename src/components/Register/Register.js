@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Register.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+
+import { useUserContext } from "../../pages/UserContext";
 
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -20,10 +23,15 @@ import {
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 
+let nextId = 0;
+
 function SignUp() {
   const [isChecked, setIsChecked] = useState(true);
   const [capVal, setCapVal] = useState(null);
 
+  const { setUsers } = useUserContext();
+
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -31,7 +39,7 @@ function SignUp() {
       name: "",
       age: "",
       address: "",
-      gender: "Nam",
+      gender: "",
     },
     validationSchema: Yup.object({
       email: Yup.string()
@@ -48,8 +56,15 @@ function SignUp() {
         .max(20, "Địa chỉ tối đa có 6 ký tự"),
     }),
     onSubmit: (values) => {
-      console.log({ ...values, gender: isChecked ? "Nam" : "Nữ" });
-      // resetForm();
+      const gender = isChecked ? "Nam" : "Nữ";
+      const newUser = {
+        id: nextId++, // Tạo ID duy nhất
+        ...values,
+        gender,
+      };
+      console.log(newUser);
+      setUsers((prevUsers) => [...prevUsers, newUser]); // Thêm người dùng mới vào mảng
+      navigate("/user-list");
     },
   });
 
