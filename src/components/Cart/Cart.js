@@ -17,7 +17,6 @@ function ParentComponent() {
       </Button>
 
       <ChildComponent label={labelText} />
-
       <Button
         className="minus ms-3"
         onClick={() => setLabelText(labelText - 1)}
@@ -31,6 +30,11 @@ function ParentComponent() {
 
 // Component Con
 function ChildComponent({ label }) {
+  return <GrandChildComponent label={label} />;
+}
+
+// Component Cháu
+function GrandChildComponent({ label }) {
   return <label>{label}</label>;
 }
 
