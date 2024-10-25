@@ -1,9 +1,0 @@
-// App.js
-import React from "react";
-// import SignIn from "../components/SignIn/SignIn";
-
-function Home() {
-  return <h2>Home</h2>;
-}
-
-export default Home;
