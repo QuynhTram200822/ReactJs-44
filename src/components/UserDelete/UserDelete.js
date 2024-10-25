@@ -18,6 +18,14 @@ function UserDelete() {
     }
   };
 
+  // const deleteUser = (id) => {
+  //   setUsers((prevUsers) => {
+  //     const updatedUsers = prevUsers.filter((user) => user.id !== id);
+  //     localStorage.setItem("users", JSON.stringify(updatedUsers)); // Cập nhật localStorage
+  //     return updatedUsers;
+  //   });
+  // };
+
   return (
     <div>
       <h1 className="text-center mt-5">Xác nhận xóa người dùng</h1>

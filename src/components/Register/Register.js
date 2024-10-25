@@ -63,7 +63,12 @@ function SignUp() {
         gender,
       };
       console.log(newUser);
-      setUsers((prevUsers) => [...prevUsers, newUser]); // Thêm người dùng mới vào mảng
+      // setUsers((prevUsers) => [...prevUsers, newUser]); // Thêm người dùng mới vào mảng
+      setUsers((prevUsers) => {
+        const updatedUsers = [...prevUsers, newUser]; // Thêm người dùng mới vào mảng
+        localStorage.setItem("users", JSON.stringify(updatedUsers)); // Lưu vào localStorage
+        return updatedUsers;
+      });
       navigate("/user-list");
     },
   });
