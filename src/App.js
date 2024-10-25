@@ -7,6 +7,7 @@ import Register from "./pages/Register";
 import Result from "./pages/Result";
 import UserEdit from "./pages/UserEdit";
 import UserDelete from "./pages/UserDelete";
+import UploadImg from "./pages/UploadImg";
 
 import { UserProvider } from "./pages/UserContext";
 
@@ -23,6 +24,7 @@ function App() {
             <Route path="/user-list" element={<Result />} />
             <Route path="/user-edit/:id" element={<UserEdit />} />
             <Route path="/user-delete/:id" element={<UserDelete />} />
+            <Route path="/img" element={<UploadImg />} />
           </Routes>
         </BrowserRouter>
       </UserProvider>
