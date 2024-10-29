@@ -12,20 +12,33 @@ function ParentComponent() {
     <div className=" cart container d-flex justify-content-center align-items-center">
       <Button
         className="plus me-3"
-        onClick={context.handleButton}
+        onClick={context.handleButtonPlus}
         variant="primary"
       >
         +
       </Button>
 
       <ChildComponent />
+      <Button
+        className="minus ms-3"
+        onClick={context.handleButtonMinus}
+        variant="primary"
+      >
+        -
+      </Button>
     </div>
   );
 }
 
 // Component Con
-function ChildComponent() {
+function ChildComponent({ label }) {
+  return <GrandChildComponent label={label} />;
+}
+
+// Component Cháu
+function GrandChildComponent() {
   const context = useContext(CartContext);
+
   return <label>{context.labelText}</label>;
 }
 

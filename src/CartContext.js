@@ -4,13 +4,17 @@ const CartContext = createContext();
 
 function CartProvider({ children }) {
   const [labelText, setLabelText] = useState(0);
-  const handleButton = () => {
+  const handleButtonPlus = () => {
     setLabelText(labelText + 1);
+  };
+  const handleButtonMinus = () => {
+    setLabelText(labelText - 1);
   };
 
   const value = {
     labelText,
-    handleButton,
+    handleButtonPlus,
+    handleButtonMinus,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
