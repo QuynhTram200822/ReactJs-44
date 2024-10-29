@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import "./Cart.css";
 import { useContext } from "react";
 import { CartContext } from "../../CartContext";
+import Content from "../../pages/Content";
 
 // Component Cha
 function ParentComponent() {
@@ -18,7 +19,7 @@ function ParentComponent() {
         +
       </Button>
 
-      <ChildComponent />
+      <Content />
       <Button
         className="minus ms-3"
         onClick={context.handleButtonMinus}
@@ -28,18 +29,6 @@ function ParentComponent() {
       </Button>
     </div>
   );
-}
-
-// Component Con
-function ChildComponent({ label }) {
-  return <GrandChildComponent label={label} />;
-}
-
-// Component Cháu
-function GrandChildComponent() {
-  const context = useContext(CartContext);
-
-  return <label>{context.labelText}</label>;
 }
 
 export default ParentComponent;
