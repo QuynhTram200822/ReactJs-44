@@ -1,45 +1,32 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "react-bootstrap/Button";
 import "./Cart.css";
+import { useContext } from "react";
+import { CartContext } from "../../CartContext";
 
 // Component Cha
 function ParentComponent() {
-  const [labelText, setLabelText] = useState(0);
-
-  const handleButtonClick1 = () => {
-    setLabelText(labelText + 1);
-  };
-
-  const handleButtonClick2 = () => {
-    setLabelText(labelText - 1);
-  };
+  const context = useContext(CartContext);
 
   return (
-    <div className=" cart container d-flex flex-column justify-content-center align-items-center">
-      <ChildComponent
-        onButtonClick1={handleButtonClick1}
-        onButtonClick2={handleButtonClick2}
+    <div className=" cart container d-flex justify-content-center align-items-center">
+      <Button
+        className="plus me-3"
+        onClick={context.handleButton}
+        variant="primary"
       >
-        <label>{labelText}</label>
-      </ChildComponent>
+        +
+      </Button>
+
+      <ChildComponent />
     </div>
   );
 }
 
 // Component Con
-function ChildComponent({ onButtonClick1, onButtonClick2, children }) {
-  return (
-    <div className=" cart container d-flex justify-content-center align-items-center">
-      <Button className="plus me-3" onClick={onButtonClick1} variant="primary">
-        +
-      </Button>
-      {children}
-
-      <Button className="minus ms-3" onClick={onButtonClick2} variant="primary">
-        -
-      </Button>
-    </div>
-  );
+function ChildComponent() {
+  const context = useContext(CartContext);
+  return <label>{context.labelText}</label>;
 }
 
 export default ParentComponent;
