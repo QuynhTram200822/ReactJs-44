@@ -1,17 +1,14 @@
 // App.js
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Cart from "./pages/Cart";
+import { Provider } from "react-redux";
+import store from "./pages/store";
+import ParentComponent from "./pages/ParentsComponents";
 
 function App() {
   return (
-    <div>
-      <BrowserRouter>
-        <Routes>
-          <Route index element={<Cart />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <Provider store={store}>
+      <ParentComponent />
+    </Provider>
   );
 }
 
