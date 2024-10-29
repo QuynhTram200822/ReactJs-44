@@ -11,16 +11,12 @@ function ParentComponent() {
     dispatch({ type: "INCREMENT" }); // Gửi hành động INCREMENT
   };
 
-  const handleDecrement = () => {
-    dispatch({ type: "DECREMENT" }); // Gửi hành động DECREMENT
-  };
-
   return (
     <div className="container d-flex vh-100 justify-content-center align-items-center">
       <Button variant="primary" className="me-2" onClick={handleIncrement}>
         +
       </Button>
-      <ChildComponent onDecrement={handleDecrement} />
+      <ChildComponent />
     </div>
   );
 }
