@@ -2,15 +2,15 @@
 import { createStore } from "redux";
 
 const initialState = {
-  labelText: 0, // Trạng thái ban đầu
+  isLogIn: false, // Trạng thái ban đầu
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case "INCREMENT": // Khi hành động là INCREMENT
-      return { ...state, labelText: state.labelText + 1 };
-    case "DECREMENT": // Khi hành động là DECREMENT
-      return { ...state, labelText: state.labelText - 1 };
+    case "SUCCESS": // Khi hành động là SUCCESS
+      return { ...state, isLogIn: true };
+    case "FAILURE": // Khi hành động là FAILURE
+      return { ...state, isLogIn: false };
     default:
       return state;
   }
