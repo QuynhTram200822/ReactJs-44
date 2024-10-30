@@ -7,6 +7,7 @@ import LogIn from "./pages/LogIn";
 import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
+import NotFound from "./pages/NotFound";
 
 import ProtectedRoute from "./pages/ProtectRoutes";
 import LayoutFrontend from "./components/LayoutFrontend";
@@ -53,6 +54,7 @@ function App() {
               </LayoutBackend>
             }
           />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </Provider>
