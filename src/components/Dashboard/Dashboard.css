@@ -1,55 +1,25 @@
 .App {
   /* text-align: center; */
-  display: flex;
-  flex-direction: row;
+  /* display: flex; */
+  /* flex-direction: row; */
   /* align-items: center; */
   min-height: 100vh;
   color: #3c4b64;
   background-color: #ebedef;
 }
 .container {
-  max-width: 1320px;
+  /* max-width: 1320px; */
 }
-.logo {
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
-}
-.logo-img {
-  max-width: 100px;
-  height: auto;
-  object-fit: cover;
-}
-.form {
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
-}
-.card-group {
-  /* display: flex; */
-  flex-flow: row wrap;
-}
-.card-body {
-  flex: 1 1 auto;
-  min-height: 1px;
-  padding: 1.25rem;
-}
-.button {
-  background-color: rgb(244, 122, 32);
-  border-color: rgb(244, 122, 32);
-  color: white;
-  opacity: 0.65;
-  text-transform: uppercase;
+.card {
+  border: none !important;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-  object-fit: cover;
+@media (min-width: 1400px) {
+  /* breakpoint-xxl */
+  .container {
+    max-width: 1320px;
+  }
 }
-
 @media (max-width: 1400px) {
   /* breakpoint-xxl */
   .container {

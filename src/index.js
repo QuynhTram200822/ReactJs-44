@@ -4,7 +4,11 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
+import "primereact/resources/themes/lara-light-cyan/theme.css"; // Chọn theme
+import "primereact/resources/primereact.min.css"; // PrimeReact CSS
+import "primeicons/primeicons.css";
+import "primeflex/primeflex.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

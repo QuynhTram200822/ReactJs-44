@@ -1,250 +1,126 @@
-import React, { useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import "./Dashboard.css";
-// import "bootstrap/dist/css/bootstrap.min.css";
 
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
-import Row from "react-bootstrap/Row";
-import * as formik from "formik";
-import * as yup from "yup";
-
-import Tab from "react-bootstrap/Tab";
-import Tabs from "react-bootstrap/Tabs";
-
-import Table from "react-bootstrap/Table";
-
-import Alert from "react-bootstrap/Alert";
+import { Button } from "primereact/button";
+import { TabView, TabPanel } from "primereact/tabview";
+import { Toast } from "primereact/toast";
+import { InputText } from "primereact/inputtext";
+import { Password } from "primereact/password";
+import { FloatLabel } from "primereact/floatlabel";
+import { RadioButton } from "primereact/radiobutton";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 function Dashboard() {
-  const { Formik } = formik;
+  const toast = useRef(null);
 
-  const schema = yup.object().shape({
-    firstName: yup.string().required(),
-    lastName: yup.string().required(),
-    username: yup.string().required(),
-    city: yup.string().required(),
-    state: yup.string().required(),
-    zip: yup.string().required(),
-    terms: yup.bool().required().oneOf([true], "Terms must be accepted"),
-  });
+  const show = () => {
+    toast.current.show({
+      severity: "info",
+      summary: "Info",
+      detail: "Message Content",
+    });
+  };
 
-  const [show, setShow] = useState(false);
+  const [value, setValue] = useState("");
+  const [gender, setGender] = useState("");
+
+  const [products, setProducts] = useState([
+    { id: 1, name: "John Doe", email: "john@example.com" },
+    { id: 2, name: "Jane Smith", email: "jane@example.com" },
+    { id: 3, name: "Michael Brown", email: "michael@example.com" },
+  ]);
   return (
     <div className="App ">
-      <div className="container ">
-        <div className=" d-flex justify-content-center mb-4  ">
-          <h2>React Bootstrap</h2>
-        </div>
-        {/* Demo Tabs */}
-        <div className="mb-5 ">
-          <Tabs
-            defaultActiveKey="button"
-            id="uncontrolled-tab-example"
-            className="mb-3"
-          >
-            {/* Demo Button */}
-            <Tab eventKey="button" title="Demo Button">
-              <div className="mb-5 ">
-                {!show && (
-                  <Button onClick={() => setShow(true)}>Show Alert</Button>
-                )}
-                <Alert show={show} variant="success">
-                  <Alert.Heading>My Alert</Alert.Heading>
-                  <p>
-                    Duis mollis, est non commodo luctus, nisi erat porttitor
-                    ligula, eget lacinia odio sem nec elit. Cras mattis
-                    consectetur purus sit amet fermentum.
-                  </p>
-                  <hr />
-                  <div className="d-flex justify-content-end">
-                    <Button
-                      onClick={() => setShow(false)}
-                      variant="outline-success"
+      <div className="grid">
+        <div className="col-6 col-offset-3  ">
+          <div className=" flex justify-content-center mb-4  ">
+            <h2>Prime React</h2>
+          </div>
+          {/* Demo Tabs */}
+          <div className="mb-5 flex justify-content-center ">
+            <TabView className="mb-5 w-full ">
+              {/* Demo Button and Alert */}
+              <TabPanel header="BUTTON">
+                <Toast ref={toast} />
+                <Button onClick={show} label="Show Alert" />
+              </TabPanel>
+              <TabPanel header="FORM">
+                <div className="card flex flex-column gap-3">
+                  <div className="card ">
+                    <div
+                      className="flex flex-column gap-2 mb-3 "
+                      style={{ width: "215px" }}
                     >
-                      Close me
-                    </Button>
-                  </div>
-                </Alert>
-              </div>
-            </Tab>
-            {/* Demo Form */}
-            <Tab eventKey="form" title="Demo Form">
-              <div className="mb-5 ">
-                <Formik
-                  validationSchema={schema}
-                  onSubmit={console.log}
-                  initialValues={{
-                    firstName: "",
-                    lastName: "",
-                    username: "",
-                    city: "",
-                    state: "",
-                    terms: false,
-                  }}
-                >
-                  {({
-                    handleSubmit,
-                    handleChange,
-                    values,
-                    touched,
-                    errors,
-                  }) => (
-                    <Form noValidate onSubmit={handleSubmit}>
-                      <Row className="mb-3">
-                        <Form.Group
-                          as={Col}
-                          md="4"
-                          controlId="validationFormik01"
-                        >
-                          <Form.Label>First name</Form.Label>
-                          <Form.Control
-                            type="text"
-                            name="firstName"
-                            value={values.firstName}
-                            onChange={handleChange}
-                            isValid={touched.firstName && !errors.firstName}
-                          />
-                          <Form.Control.Feedback>
-                            Looks good!
-                          </Form.Control.Feedback>
-                        </Form.Group>
-                        <Form.Group
-                          as={Col}
-                          md="4"
-                          controlId="validationFormik02"
-                        >
-                          <Form.Label>Last name</Form.Label>
-                          <Form.Control
-                            type="text"
-                            name="lastName"
-                            value={values.lastName}
-                            onChange={handleChange}
-                            isValid={touched.lastName && !errors.lastName}
-                          />
-
-                          <Form.Control.Feedback>
-                            Looks good!
-                          </Form.Control.Feedback>
-                        </Form.Group>
-                        <Form.Group
-                          as={Col}
-                          md="4"
-                          controlId="validationFormikUsername"
-                        >
-                          <Form.Label>Username</Form.Label>
-                          <InputGroup hasValidation>
-                            <InputGroup.Text id="inputGroupPrepend">
-                              @
-                            </InputGroup.Text>
-                            <Form.Control
-                              type="text"
-                              placeholder="Username"
-                              aria-describedby="inputGroupPrepend"
-                              name="username"
-                              value={values.username}
-                              onChange={handleChange}
-                              isInvalid={!!errors.username}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                              {errors.username}
-                            </Form.Control.Feedback>
-                          </InputGroup>
-                        </Form.Group>
-                      </Row>
-                      <Row className="mb-3">
-                        <Form.Group
-                          as={Col}
-                          md="6"
-                          controlId="validationFormik03"
-                        >
-                          <Form.Label>City</Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="City"
-                            name="city"
-                            value={values.city}
-                            onChange={handleChange}
-                            isInvalid={!!errors.city}
-                          />
-
-                          <Form.Control.Feedback type="invalid">
-                            {errors.city}
-                          </Form.Control.Feedback>
-                        </Form.Group>
-                        <Form.Group
-                          as={Col}
-                          md="3"
-                          controlId="validationFormik04"
-                        >
-                          <Form.Label>State</Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="State"
-                            name="state"
-                            value={values.state}
-                            onChange={handleChange}
-                            isInvalid={!!errors.state}
-                          />
-                          <Form.Control.Feedback type="invalid">
-                            {errors.state}
-                          </Form.Control.Feedback>
-                        </Form.Group>
-                      </Row>
-                      <Form.Group className="mb-3">
-                        <Form.Check
-                          required
-                          name="terms"
-                          label="Agree to terms and conditions"
-                          onChange={handleChange}
-                          isInvalid={!!errors.terms}
-                          feedback={errors.terms}
-                          feedbackType="invalid"
-                          id="validationFormik0"
+                      <label htmlFor="username">Username</label>
+                      <InputText
+                        id="username"
+                        aria-describedby="username-help"
+                        style={{ width: "100%" }}
+                      />
+                    </div>
+                    <div
+                      className="flex flex-column gap-2 mb-3 "
+                      style={{ width: "300px" }}
+                    >
+                      <label htmlFor="password">Password</label>
+                      <FloatLabel>
+                        <Password
+                          inputId="password"
+                          value={value}
+                          onChange={(e) => setValue(e.target.value)}
+                          style={{ width: "100%" }}
                         />
-                      </Form.Group>
-                      <Button type="submit">Submit form</Button>
-                    </Form>
-                  )}
-                </Formik>
-              </div>
-            </Tab>
-            {/* Demo Table */}
-            <Tab eventKey="table" title="Demo table">
-              <div className="mb-5 ">
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>First Name</th>
-                      <th>Last Name</th>
-                      <th>Username</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>Mark</td>
-                      <td>Otto</td>
-                      <td>@mdo</td>
-                    </tr>
-                    <tr>
-                      <td>2</td>
-                      <td>Jacob</td>
-                      <td>Thornton</td>
-                      <td>@fat</td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <td colSpan={2}>Larry the Bird</td>
-                      <td>@twitter</td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </div>
-            </Tab>
-          </Tabs>
+                        <label htmlFor="password">Password</label>
+                      </FloatLabel>
+                    </div>
+                    <div className="flex flex-column gap-2 mb-3">
+                      <label htmlFor="username">Gender</label>
+                      <div className="flex align-items-center">
+                        <RadioButton
+                          inputId="gender1"
+                          name="Male"
+                          value="Male"
+                          onChange={(e) => setGender(e.value)}
+                          checked={gender === "Male"}
+                        />
+                        <label htmlFor="gender1" className="ml-2">
+                          Male
+                        </label>
+                      </div>
+                      <div className="flex align-items-center">
+                        <RadioButton
+                          inputId="gender2"
+                          name="Female"
+                          value="Female"
+                          onChange={(e) => setGender(e.value)}
+                          checked={gender === "Female"}
+                        />
+                        <label htmlFor="gender2" className="ml-2">
+                          Female
+                        </label>
+                      </div>
+                    </div>
+                    <div className="card flex justify-content-center">
+                      <Button label="Submit" />
+                    </div>
+                  </div>
+                </div>
+              </TabPanel>
+              <TabPanel header="TABLE">
+                <div className="card">
+                  <DataTable
+                    value={products}
+                    tableStyle={{ minWidth: "50rem" }}
+                  >
+                    <Column field="id" header="Id"></Column>
+                    <Column field="name" header="Name"></Column>
+                    <Column field="email" header="Email"></Column>
+                  </DataTable>
+                </div>
+              </TabPanel>
+            </TabView>
+          </div>
         </div>
       </div>
     </div>
