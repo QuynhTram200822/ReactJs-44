@@ -1,7 +1,8 @@
 // App.js
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Dashboard from "./pages/Dashboard";
+import StudentList from "./pages/StudentTable";
+
 import NotFound from "./pages/NotFound";
 import LayoutFrontend from "./components/LayoutFrontend";
 
@@ -12,9 +13,7 @@ function App() {
         <Route
           index
           element={
-            <LayoutFrontend>
-              <Dashboard />
-            </LayoutFrontend>
+              <StudentList />
           }
         />
         <Route path="*" element={<NotFound />} />
