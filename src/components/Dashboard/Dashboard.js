@@ -10,6 +10,7 @@ import { FloatLabel } from "primereact/floatlabel";
 import { RadioButton } from "primereact/radiobutton";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { Calendar } from 'primereact/calendar';
 
 function Dashboard() {
   const toast = useRef(null);
@@ -30,6 +31,8 @@ function Dashboard() {
     { id: 2, name: "Jane Smith", email: "jane@example.com" },
     { id: 3, name: "Michael Brown", email: "michael@example.com" },
   ]);
+
+  const [date, setDate] = useState(null);
   return (
     <div className="App ">
       <div className="grid">
@@ -100,6 +103,10 @@ function Dashboard() {
                           Female
                         </label>
                       </div>
+                    </div>
+                    <div className="flex flex-column gap-2 mb-3">
+                      <label htmlFor="username">Birthday</label>
+                      <Calendar id="buttondisplay" value={date} onChange={(e) => setDate(e.value)} showIcon />
                     </div>
                     <div className="card flex justify-content-center">
                       <Button label="Submit" />
