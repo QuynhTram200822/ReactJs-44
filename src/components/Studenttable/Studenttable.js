@@ -44,7 +44,6 @@ function StudentTable() {
     }
 
     addStudents({ name, age });
-    setStudents(getStudents());
 
     // Reset form
     setName("");
@@ -55,8 +54,7 @@ function StudentTable() {
 
   const handleDeleteStudent = () => {
     if (studentToDelete !== null) {
-      deleteStudents(studentToDelete); // Xóa sinh viên
-      setStudents(getStudents()); // Cập nhật lại danh sách sinh viên
+      deleteStudents(studentToDelete);  // Cập nhật lại danh sách sinh viên
       setShowAlert(false); // Đóng alert
       setStudentToDelete(null); // Reset id sinh viên cần xóa
     }
@@ -70,18 +68,26 @@ function StudentTable() {
     }
 
     editStudents(studentToEdit.id, { name, age });
-    setStudents(getStudents());
     
     setName('');
     setAge('');
     handleModalEditClose();
   };
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setStudents(getStudents()); // Cập nhật lại state mỗi khi `localStorage` thay đổi
+    }, 1000); 
+
+    // Cleanup interval khi component unmount
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="App ">
       <div className="grid">
         <div className="col-6 col-offset-3  ">
-          <div className=" flex justify-content-center mb-4  ">
+          <div className=" d-flex justify-content-center mb-4  ">
             <h2>Student List</h2>
           </div>
           <Button className="mb-4  " variant="primary" onClick={handleShow}>
