@@ -1,18 +1,21 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./Studenttable.css";
 
-import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Alert from "react-bootstrap/Alert";
+import InputGroup from 'react-bootstrap/InputGroup';
 
 import { getStudents, addStudents, deleteStudents, editStudents } from "../../storage";
 
 function StudentTable() {
   const [students, setStudents] = useState(getStudents());
+  const [filteredStudents, setFilteredStudents] = useState(students);
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
+
+  const searchRef = useRef(null);
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -22,18 +25,18 @@ function StudentTable() {
   const [studentToDelete, setStudentToDelete] = useState(null);
   const handleAlertClose = () => setShowAlert(false);
   const handleAlertShow = (id) => {
-    setStudentToDelete(id); // Lưu id sinh viên cần xóa vào state
-    setShowAlert(true); // Mở alert xác nhận xóa
+    setStudentToDelete(id);
+    setShowAlert(true);
   };
 
   const [showModalEdit, setShowModalEdit] = useState(false);
   const [studentToEdit, setStudentToEdit] = useState(null);
   const handleModalEditClose = () => setShowModalEdit(false);
   const handleModalEditShow = (student) => {
-    setStudentToEdit(student); // Lưu sinh viên cần sửa
-    setName(student.name); // Đặt giá trị name của sinh viên vào state
-    setAge(student.age); // Đặt giá trị age của sinh viên vào state
-    setShowModalEdit(true); // Mở modal chỉnh sửa
+    setStudentToEdit(student);
+    setName(student.name);
+    setAge(student.age);
+    setShowModalEdit(true);
   };
 
   const handleAddStudent = (e) => {
@@ -44,19 +47,19 @@ function StudentTable() {
     }
 
     addStudents({ name, age });
+    setStudents(getStudents());
 
-    // Reset form
     setName("");
     setAge("");
-
     handleClose();
   };
 
   const handleDeleteStudent = () => {
     if (studentToDelete !== null) {
-      deleteStudents(studentToDelete);  // Cập nhật lại danh sách sinh viên
-      setShowAlert(false); // Đóng alert
-      setStudentToDelete(null); // Reset id sinh viên cần xóa
+      deleteStudents(studentToDelete);
+      setStudents(getStudents());
+      setShowAlert(false);
+      setStudentToDelete(null);
     }
   };
 
@@ -68,28 +71,43 @@ function StudentTable() {
     }
 
     editStudents(studentToEdit.id, { name, age });
-    
+    setStudents(getStudents());
     setName('');
     setAge('');
     handleModalEditClose();
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setStudents(getStudents()); // Cập nhật lại state mỗi khi `localStorage` thay đổi
-    }, 1000); 
+    setFilteredStudents(students);
+  }, [students]);
 
-    // Cleanup interval khi component unmount
-    return () => clearInterval(interval);
-  }, []);
+  const handleSearch = () => {
+    const searchTerm = searchRef.current.value.toLowerCase();
+    if (!searchTerm) {
+      setFilteredStudents(students);
+    } else {
+      const filtered = students.filter(student =>
+        student.name.toLowerCase().includes(searchTerm) ||
+        student.age.toString().includes(searchTerm)
+      );
+      setFilteredStudents(filtered);
+    }
+  };
 
   return (
     <div className="App ">
-      <div className="grid">
-        <div className="col-6 col-offset-3  ">
+      <div className="container">
+        <div className=" ">
           <div className=" d-flex justify-content-center mb-4  ">
             <h2>Student List</h2>
           </div>
+          <InputGroup className="mb-3">
+            <Form.Control
+              placeholder="Search"
+              ref={searchRef}
+              onChange={handleSearch}
+            />
+          </InputGroup>
           <Button className="mb-4  " variant="primary" onClick={handleShow}>
             New
           </Button>
@@ -180,40 +198,45 @@ function StudentTable() {
               </Button>
             </div>
           </Alert>
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {students.map((student) => (
-                <tr key={student.id}>
-                  <td>{student.id}</td>
-                  <td>{student.name}</td>
-                  <td>{student.age}</td>
-                  <td>
-                    <Button
-                      className="me-3"
-                      variant="warning"
-                      onClick={() => handleModalEditShow(student)}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      variant="danger"
-                      onClick={() => handleAlertShow(student.id)}
-                    >
-                      Delete
-                    </Button>
-                  </td>
+
+          {filteredStudents.length === 0 ? (
+            <div className="text-center">Not Found</div>
+          ) : (
+            <table className="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Age</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {filteredStudents.map(student => (
+                  <tr key={student.id}>
+                    <td>{student.id}</td>
+                    <td>{student.name}</td>
+                    <td>{student.age}</td>
+                    <td>
+                      <Button
+                        className="me-2"
+                        variant="warning"
+                        onClick={() => handleModalEditShow(student)}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="danger"
+                        onClick={() => handleAlertShow(student.id)}
+                      >
+                        Delete
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </div>
